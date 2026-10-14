@@ -1,0 +1,31 @@
+import './globals.css';
+
+export const metadata = {
+  title: 'Polat Makina - Kalite & Cihaz Yönetim Sistemi',
+  description: 'QDMS Entegre Kalibrasyon ve Cihaz Takip Sistemi',
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="tr">
+      <body className="bg-slate-100 text-slate-800 antialiased">
+        {/* Üst Kurumsal Header ve Logo */}
+        <header className="bg-slate-900 border-b border-slate-800 text-white px-6 py-4 flex items-center justify-between shadow-md">
+          <div className="flex items-center gap-3">
+            {/* Sol üst köşe Polat Makina Logosu */}
+            <div className="bg-blue-600 text-white font-black px-3 py-1.5 rounded text-lg tracking-wider">
+              POLAT MAKİNA
+            </div>
+            <span className="text-slate-400 text-sm border-l border-slate-700 pl-3 hidden sm:inline">
+              Kalite Departmanı | Cihaz ve Kalibrasyon Yönetim Sistemi
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-sm">
+            <span className="bg-slate-800 px-3 py-1 rounded text-slate-300">Admin Yetkisi</span>
+          </div>
+        </header>
+        <main>{children}</main>
+      </body>
+    </html>
+  );
+}

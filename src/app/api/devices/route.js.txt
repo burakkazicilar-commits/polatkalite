@@ -1,0 +1,32 @@
+import { NextResponse } from 'next/server';
+import { Pool } from 'pg';
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+// Cihazları Listeleme API
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const filter = searchParams.get('filter');
+    
+    let query = 'SELECT * FROM devices';
+    let values = [];
+    const today = new Date().toISOString().split('T')[0];
+
+    if (filter === 'expired') {
+      query += ' WHERE next_calibration_date < $1';
+      values = [today];
+    } else if (filter === 'upcoming') {
+      query += ' WHERE next_calibration_date >= $1 AND next_calibration_date <= CURRENT_DATE + INTERVAL \'30 days\'';
+      values = [today];
+    }
+
+    const result = await pool.query(query, values);
+    return NextResponse.json(result.rows);
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
